@@ -1,0 +1,234 @@
+
+
+# 🧱 app.js — Line by Line Structure (Only Important Parts)
+
+---
+
+## ✅ Imports (top block)
+
+```js
+const express = require('express');
+const path = require('path');
+const cookieParser = require('cookie-parser');
+const bcrypt = require('bcrypt');
+const jwt = require('jsonwebtoken');
+```
+
+**Difficult part:**
+
+```
+bcrypt → password hash
+jwt → login token
+cookieParser → browser cookie read
+```
+
+---
+
+## ✅ Models load
+
+```js
+const userModel = require("./models/user")
+```
+
+👉 DB schema connect hota
+👉 yahin se MongoDB connect bhi hota (user.js me)
+
+---
+
+## ✅ Express config
+
+```js
+app.set("view engine", "ejs");
+```
+
+👉 res.render() enable
+
+---
+
+```js
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
+```
+
+👉 form data read karne ke liye
+👉 req.body ka source
+
+---
+
+```js
+app.use(express.static(path.join(__dirname, "public")));
+```
+
+👉 CSS / images serve
+
+---
+
+```js
+app.use(cookieParser());
+```
+
+👉 req.cookies.token enable
+⚠ Without this → auth middleware fail
+
+---
+
+# 🧾 Register Route — tricky parts
+
+```js
+let user = await userModel.findOne({ email })
+```
+
+👉 check duplicate user
+
+---
+
+```js
+const hash = await bcrypt.hash(password, 10);
+```
+
+👉 password → hash
+👉 10 = salt rounds (security level)
+
+---
+
+```js
+const token = jwt.sign(payload, "suga");
+```
+
+👉 login identity token create
+👉 "suga" = secret key (later env file me rakhna)
+
+---
+
+```js
+res.cookie("token", token);
+```
+
+👉 browser me login cookie set
+
+---
+
+# 🔐 Login Route — tricky part
+
+```js
+bcrypt.compare(password, user.password)
+```
+
+👉 plain vs hashed compare
+👉 true/false return
+
+---
+
+## ⚠ Most common bug spot
+
+```
+jwt.sign(...) but not stored
+res.cookies ❌ typo
+token variable missing
+```
+
+---
+
+# 🛡 Profile Route — protected
+
+```js
+app.get('/profile', isLoggedIn, ...)
+```
+
+👉 middleware pehle run
+👉 then route run
+
+Execution order:
+
+```
+isLoggedIn → next() → profile handler
+```
+
+---
+
+# 🧠 Middleware — most difficult block
+
+```js
+function isLoggedIn(req,res,next){
+```
+
+👉 custom gatekeeper
+
+---
+
+```js
+if(!req.cookies.token)
+```
+
+👉 cookie exist check
+⚠ plural **cookies**
+
+---
+
+```js
+jwt.verify(req.cookies.token, "suga")
+```
+
+👉 token decode + validate
+👉 tampered token → error
+
+---
+
+```js
+req.user = data;
+```
+
+👉 decoded user info store
+👉 next route me usable
+
+---
+
+```js
+next();
+```
+
+👉 allow request to continue
+⚠ no next → route freeze
+
+---
+
+# 🚪 Logout
+
+```js
+res.clearCookie("token");
+```
+
+👉 login erase
+👉 user logged out
+
+---
+
+# ▶️ Server start
+
+```js
+app.listen(3000);
+```
+
+👉 server boot
+
+---
+
+# ⚠️ Top 6 danger lines (remember)
+
+```
+res.cookie vs res.cookies
+req.cookies vs req.cookie
+jwt.sign return store
+bcrypt.compare use result
+middleware must return on fail
+next() only after verify
+```
+
+---
+
+Agar tu chahe next —
+main same style me:
+👉 login flow diagram
+👉 JWT flow diagram
+👉 request lifecycle map
+bhi bana dunga — ultra simple 👊

@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Create Account</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+
+<body class="min-h-screen bg-black text-white">
+
+    <!-- Header -->
+    <div class="flex justify-between items-center px-16 py-6 bg-zinc-950 border-b border-zinc-800">
+        <h1 class="text-2xl font-bold tracking-wide">
+            <span class="text-purple-500">Task</span>Board
+        </h1>
+
+        <a href="/login"
+           class="px-5 py-2 bg-gradient-to-r from-purple-600 to-indigo-600 rounded-lg shadow-lg hover:scale-105 transition">
+            Login
+        </a>
+    </div>
+
+    <!-- Main Content -->
+    <div class="max-w-2xl mx-auto  px-16 py-10">
+
+        <!-- Heading Section -->
+        <div class="mb-5">
+            <h2 class="text-4xl font-bold leading-tight">
+                Join the journey,
+                <span class="bg-gradient-to-r from-purple-400 to-pink-400 bg-clip-text text-transparent">
+                    Start Today
+                </span>
+            </h2>
+
+            <p class="text-zinc-400  text-lg">
+                Create your account and begin building momentum.
+            </p>
+        </div>
+
+        <!-- Form Card -->
+        <div class="bg-zinc-900 border border-zinc-700 rounded-2xl p-3 shadow-2xl max-w-xl">
+
+            <form action="/register" method="post" class="space-y-3">
+
+                <input 
+                    class="w-full px-4 py-3 rounded-xl bg-zinc-800 border border-zinc-700 focus:border-purple-500 focus:ring-2 focus:ring-purple-500 outline-none transition"
+                    type="text" placeholder="Name" name="name" required>
+
+                <input 
+                    class="w-full px-4 py-3 rounded-xl bg-zinc-800 border border-zinc-700 focus:border-purple-500 focus:ring-2 focus:ring-purple-500 outline-none transition"
+                    type="text" placeholder="Username" name="username" required>
+
+                <input 
+                    class="w-full px-4 py-3 rounded-xl bg-zinc-800 border border-zinc-700 focus:border-purple-500 focus:ring-2 focus:ring-purple-500 outline-none transition"
+                    type="password" placeholder="Password" name="password" required>
+
+                <input 
+                    class="w-full px-4 py-3 rounded-xl bg-zinc-800 border border-zinc-700 focus:border-purple-500 focus:ring-2 focus:ring-purple-500 outline-none transition"
+                    type="number" placeholder="Age" name="age" required>
+
+                <input 
+                    class="w-full px-4 py-3 rounded-xl bg-zinc-800 border border-zinc-700 focus:border-purple-500 focus:ring-2 focus:ring-purple-500 outline-none transition"
+                    type="email" placeholder="Email" name="email" required>
+
+                <button 
+                    class="w-full py-3 bg-gradient-to-r from-purple-600 to-indigo-600 rounded-xl font-semibold shadow-lg hover:shadow-purple-800/40 hover:scale-105 transition duration-300">
+                    Create Account
+                </button>
+
+            </form>
+
+        </div>
+
+    </div>
+
+</body>
+</html>
